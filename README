@@ -4,6 +4,8 @@ structured documentation to Ruby objects at runtime and view it in an interactiv
 Documentation detail can range from this:
 
   class Donk
+    include RTFM
+
     doc "A pretty good method."
     def pretty_good
       do_stuff
@@ -13,6 +15,8 @@ Documentation detail can range from this:
 to this:
 
   class Wonderfulness
+    include RTFM
+
     doc(self) <<end
       Oh, what a wonderous class.
     end
@@ -37,7 +41,9 @@ to this:
     end
   end
 
-and, among other things, would enable this:
+and just about everything in between.
+
+Among other things, the above would enable this:
 
   >> Donk.doc? :pretty_good
   pretty_good()
@@ -62,11 +68,13 @@ and, among other things, would enable this:
     it shall be smoobed.
 
 
-The current implementation is a minimal proof of concept. The TODO list includes:
+The current implementation is a minimal proof of concept. It is not practically usable,
+though it could be made so with maybe a week of work. The long-term TODO list includes:
 
   - find a reasonably non-hackish way of detecting constant creation
   - show contextual info such as module/class and library/gem
   - group inherited things by module, hilight overrides
+  - figure out exactly what to do with type information
   - use Method.source_location to extract source and parameter info
   - some way to have a central index without loading every single library
   - purge documentation in non-interactive environments
