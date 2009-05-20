@@ -1,0 +1,77 @@
+RTFM is a "live" documentation framework for Ruby. It allows you to easily add
+structured documentation to Ruby objects at runtime and view it in an interactive environment.
+
+Documentation detail can range from this:
+
+  class Donk
+    doc "A pretty good method."
+    def pretty_good
+      do_stuff
+    end
+  end
+
+to this:
+
+  class Wonderfulness
+    doc(self) <<end
+      Oh, what a wonderous class.
+    end
+
+    doc {
+      args :target => { :type => String,
+                        :desc => "The thing to smoob" },
+           :level =>  { :type => Integer,
+                        :default => 100,
+                        :desc => "How smooby the smoob will be. Over-smoobing can cause undefined behavior." }
+
+      returns Symbol, "The result of the smoobing"
+
+      <<end
+        Call this method when you want to smoob something.
+        Rest assured, it shall be smoobed.
+      end
+    }
+
+    def smoob target, level=100
+      ... (proprietary smoobing code) ...
+    end
+  end
+
+and, among other things, would enable this:
+
+  >> Donk.doc? :pretty_good
+  pretty_good()
+    A pretty good method.
+
+  >> Wonderfulness.doc?
+  Wonderfulness
+    Oh, what a wonderous class.
+
+    Instance Methods:
+      smoob(target,level)
+
+  >> Wonderfulness.doc? :smoob
+  smoob(target, level=100) => Symbol
+    target  (String)  The thing to smoob
+    level   (Integer) How smooby the smoob will be. Over-smoobing can
+                      cause undefined behavior.
+
+    returns (Symbol)  The result of the smoobing
+
+    Call this method when you want to smoob something. Rest assured,
+    it shall be smoobed.
+
+
+The current implementation is a minimal proof of concept. The TODO list includes:
+
+  - find a reasonably non-hackish way of detecting constant creation
+  - show contextual info such as module/class and library/gem
+  - group inherited things by module, hilight overrides
+  - use Method.source_location to extract source and parameter info
+  - some way to have a central index without loading every single library
+  - purge documentation in non-interactive environments
+  - modular formatting system and various stock formatters
+  - extensible annotation structure for use with DSLs
+  - import rdoc formatted comments
+  - shell tools
+  - integration with rubygems
